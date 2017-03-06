@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as _ from 'lodash';
+import * as nodemailer from 'nodemailer';
 
 interface Project {
 
@@ -80,7 +81,15 @@ class BillingApi {
 
 }
 
-
+/**
+ * Mail Stuffs
+ */
+let smtpConfig = {
+    host: '',
+    port: '25',
+    secure: false
+};
+let transport = nodemailer.createTransport(smtpConfig);
 
 /**
  * Run this stuff here
@@ -90,9 +99,18 @@ let projects = billing.login().then(token => {
   return billing.projects();
 });
 projects.then( p => p.map(project => billing.monthlyReport(project.id).then(
-  report => console.log
+  report => {
+    let message = {
+      from: '',
+      to: '',
+      subject: '',
+      text: JSON.stringify(report)
+    };
+    transport.sendMail(message, function(err) {
+      if(err) {
+        console.log(err);
+      }  
+    });
+  }
 )));
-
-
-
 
