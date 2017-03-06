@@ -1,0 +1,27 @@
+{
+  "name": "email-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./build/index.js",
+    "dev": "node ./build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^7.0.5",
+    "@types/request": "0.0.40",
+    "axios": "^0.15.3",
+    "lodash": "^4.17.4",
+    "request": "^2.79.0",
+    "typescript": "^2.2.1"
+  },
+  "dependencies": {
+    "@types/es6-promise": "0.0.32",
+    "@types/lodash": "^4.14.54",
+    "lodash": "^4.17.4"
+  }
+}
