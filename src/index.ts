@@ -62,7 +62,6 @@ class BillingApi {
   }
 
   private aggregateEntries(entries, groupByIteratee) {
-    console.log(_.groupBy(entries, groupByIteratee));
     return _(entries)
       .groupBy(groupByIteratee)
       .map((items, key) => items.reduce((acc, entry) => ({
@@ -77,7 +76,7 @@ class BillingApi {
         key,
       })))
       .value();
-}
+  }
 
 }
 
