@@ -49,7 +49,7 @@ class BillingApi {
     var lastDay = new Date(y, m + 1, 0);
 
     return axios.get(
-      `http://localhost:3500/api/reports?bucket=monthly&fromDate=${firstDay}&toDate=${lastDay}&projects=${projectId}`,
+      `http://localhost:5000/reports?bucket=monthly&fromDate=${firstDay}&toDate=${lastDay}&projects=${projectId}`,
       {headers: headers})
       .then( response => {
         if (response.data['entries'].length > 0) {
