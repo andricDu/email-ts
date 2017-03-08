@@ -2,11 +2,12 @@ import axios from 'axios';
 import * as _ from 'lodash';
 import * as nodemailer from 'nodemailer';
 
-interface Project {
+interface BillableProject {
 
-  id: string;
-  name: string;
-  roles: Array<string>;
+  project_name: string;
+  project_id: string;
+  user_id: string; // this is the billing user
+  extra: any;
 
 }
 
@@ -27,14 +28,14 @@ class BillingApi {
       });
   }
 
-  public async projects() : Promise<Array<Project>> {
+  public async projects() : Promise<Array<BillableProject>> {
     let headers = {
       authorization: `Bearer ${this.token}`
     };
 
-    return axios.get('http://localhost:5000/projects', {headers: headers})
+    return axios.get('http://localhost:5000/billingprojects', {headers: headers})
       .then( response => {
-        let projects: Array<Project> = response.data;
+        let projects: Array<BillableProject> = response.data;
         return projects;
       });
   }
@@ -98,12 +99,12 @@ let billing = new BillingApi();
 let projects = billing.login().then(token => {
   return billing.projects();
 });
-projects.then( p => p.map(project => billing.monthlyReport(project.id).then(
+projects.then( p => p.map(project => billing.monthlyReport(project.project_id).then(
   report => {
     let message = {
       from: '',
-      to: '',
-      subject: '',
+      to: project.extra.email,
+      subject: 'Usage Invoice',
       text: JSON.stringify(report)
     };
     transport.sendMail(message, function(err) {
